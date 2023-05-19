@@ -1,0 +1,92 @@
+service: rate-limited-notification-service
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: go1.x
+  stage: dev
+
+  custom:
+    stage: ${opt:stage, self:provider.stage}
+
+  resources:
+    Resources:
+      QueueNotificationReception:
+        Type: AWS::SQS::Queue
+        Properties:
+          QueueName: sqs-dev-notification-reception
+
+      QueueNotificationReceptionPolicy:
+        Type: AWS::SQS::QueuePolicy
+        Properties:
+          Queues:
+            - Ref: QueueNotificationReception
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Principal: "*"
+                Action:
+                  - sqs:SendMessage
+                  - sqs:DeleteMessage
+                Resource:
+                  - Fn::GetAtt:
+                      - QueueNotificationReception
+                      - Arn
+
+      QueueSendMail:
+        Type: AWS::SQS::Queue
+        Properties:
+          QueueName: sqs-dev-send-mail
+
+      QueueSendMailPolicy:
+        Type: AWS::SQS::QueuePolicy
+        Properties:
+          Queues:
+            - Ref: QueueSendMail
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Principal: "*"
+                Action:
+                  - sqs:SendMessage
+                  - sqs:DeleteMessage
+                Resource:
+                  - Fn::GetAtt:
+                      - QueueSendMail
+                      - Arn
+environment:
+  REDIS_HOST: "127.0.0.1"
+  REDIS_PORT: "6379"
+  REDIS_DB: 0
+  REDIS_PASSWORD: ""
+  QUEUE_URL: "queue-url"
+
+# you can define service wide environment variables here
+#  environment:
+#    variable1: value1
+
+package:
+  patterns:
+    - '!./**'
+    - ./bin/**
+
+functions:
+  hello:
+    handler: bin/rate-limit
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - QueueNotificationReception
+              - Arn
+  world:
+    handler: bin/send-mail
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - QueueSendMail
+              - Arn
