@@ -64,6 +64,11 @@ environment:
   REDIS_PASSWORD: ""
   QUEUE_URL: "queue-url"
 
+  MAIL_HOST: "smtp.gmail.com"
+  MAIL_USERNAME: "kennitromero@gmail.com"
+  MAIL_PASSWORD: "password-is-a-password"
+  MAIL_PORT: "25"
+
 # you can define service wide environment variables here
 #  environment:
 #    variable1: value1
