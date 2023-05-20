@@ -29,6 +29,8 @@ func (uc *UseCase) handle(n commons.Notification) error {
 
 	templateDir := filepath.Join(uc.currentDir, "templates")
 
+	// ToDo, replace it for strategy map
+
 	switch n.TypeNotification {
 	case commons.TypeNotificationStatus:
 		filePath = filepath.Join(templateDir, "status.html")

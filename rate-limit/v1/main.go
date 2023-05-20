@@ -104,7 +104,7 @@ func main() {
 
 	err := uc.run(notification)
 	if err != nil {
-		fmt.Println("Parece que hay un error")
+		fmt.Println("there is an error", err)
 		panic(err)
 	}*/
 }

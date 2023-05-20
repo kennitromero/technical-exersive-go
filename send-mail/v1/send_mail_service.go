@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/go-mail/mail"
 	"github.com/stretchr/testify/mock"
 )
@@ -31,16 +30,6 @@ func NewSendMail(host string, port int, username string, password string) *SendM
 }
 
 func (sm *SendMail) SendMail(to string, from string, subject string, body string) error {
-
-	fmt.Println("To", to)
-	fmt.Println("From", from)
-
-	fmt.Println("Subject", subject)
-	fmt.Println("text/html", body)
-
-	fmt.Println(sm.host, sm.port, sm.username, sm.password)
-	return nil
-
 	m := mail.NewMessage()
 
 	m.SetHeader("To", to)

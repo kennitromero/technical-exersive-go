@@ -61,9 +61,14 @@ func (uc *OrchestratorUC) run(notification commons.Notification) error {
 	if err != nil {
 		return err
 	}
-	_, err = uc.queueRepo.SendMessage(string(bodyMessage))
-	if err != nil {
-		return err
+
+	// ToDo, apply strategy pattern for more options to notify
+	// https://refactoring.guru/es/design-patterns/strategy/go/example
+	if notification.WayToNotify == "email" {
+		_, err = uc.queueRepo.SendMessage(string(bodyMessage))
+		if err != nil {
+			return err
+		}
 	}
 
 	rateLimitCounter.Key = ""
