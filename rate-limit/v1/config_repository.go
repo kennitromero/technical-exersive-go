@@ -1,6 +1,9 @@
 package main
 
-import "errors"
+import (
+	"errors"
+	"technical-exersive/commons"
+)
 
 type IConfigRepository interface {
 	getNotificationLimitsByType(typeNotification string) (int, int, error)
@@ -13,28 +16,21 @@ func NewConfigRepository() *ConfigRepository {
 	return &ConfigRepository{}
 }
 
-const (
-	TypeNotificationStatus    = "status"
-	TypeNotificationNews      = "news"
-	TypeNotificationMarketing = "marketing"
-	TypeNotificationDaily     = "daily"
-)
-
 func (c *ConfigRepository) getNotificationLimitsByType(typeNotification string) (int, int, error) {
 	config := map[string]map[string]int{
-		TypeNotificationStatus: {
+		commons.TypeNotificationStatus: {
 			"limit_attempts": 2,
 			"per_seconds":    60,
 		},
-		TypeNotificationNews: {
+		commons.TypeNotificationNews: {
 			"limit_attempts": 1,
 			"per_seconds":    86400,
 		},
-		TypeNotificationMarketing: {
+		commons.TypeNotificationMarketing: {
 			"limit_attempts": 3,
 			"per_seconds":    1,
 		},
-		TypeNotificationDaily: {
+		commons.TypeNotificationDaily: {
 			"limit_attempts": 3,
 			"per_seconds":    3600,
 		},

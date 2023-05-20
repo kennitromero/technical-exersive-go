@@ -18,7 +18,7 @@ func NewOrchestratorUC(repo ICacheRepository, verify IVerifyUC, mtime commons.Im
 	return &OrchestratorUC{repo: repo, verify: verify, mtime: mtime, queueRepo: queueRepo}
 }
 
-func (uc *OrchestratorUC) run(notification Notification) error {
+func (uc *OrchestratorUC) run(notification commons.Notification) error {
 	now := uc.mtime.GetNowUTC()
 
 	replacer := strings.NewReplacer(
@@ -34,7 +34,7 @@ func (uc *OrchestratorUC) run(notification Notification) error {
 	}
 
 	if rateLimitCounter.Key == "" {
-		rateLimitCounter = RateLimitCounter{
+		rateLimitCounter = commons.RateLimitCounter{
 			Key:            compositeKey,
 			AttemptCounter: 0,
 			CreatedAt:      now.Format(time.RFC3339),

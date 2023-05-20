@@ -2,6 +2,7 @@ package main
 
 import (
 	"reflect"
+	"technical-exersive/commons"
 	"testing"
 )
 
@@ -19,7 +20,7 @@ func TestConfigRepositoryGetNotificationLimitsByType(t *testing.T) {
 		{
 			name: "should_get_notification_limits_by_type_success",
 			args: args{
-				typeNotification: TypeNotificationStatus,
+				typeNotification: commons.TypeNotificationStatus,
 			},
 			limitAttempts: 2,
 			perSeconds:    60,

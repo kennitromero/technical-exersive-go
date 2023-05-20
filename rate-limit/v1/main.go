@@ -49,14 +49,14 @@ func handler(ctx context.Context, sqsEvent events.SQSEvent) error {
 		body := message.Body
 		logger.Println("message received", body)
 
-		var notification Notification
+		var notification commons.Notification
 		err = json.Unmarshal([]byte(body), &notification)
-
-		err = uc.run(notification)
 		if err != nil {
-			logger.Fatalln("failure in the notification rate limit system")
+			logger.Fatalln("failed to convert message to struct")
 			return nil
 		}
+
+		err = uc.run(notification)
 	}
 
 	return nil

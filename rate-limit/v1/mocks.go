@@ -2,18 +2,19 @@ package main
 
 import (
 	"github.com/stretchr/testify/mock"
+	"technical-exersive/commons"
 )
 
 type CacheRepositoryMock struct {
 	mock.Mock
 }
 
-func (m *CacheRepositoryMock) get(compositeKey string) (RateLimitCounter, error) {
+func (m *CacheRepositoryMock) get(compositeKey string) (commons.RateLimitCounter, error) {
 	args := m.Called(compositeKey)
-	return args.Get(0).(RateLimitCounter), args.Error(1)
+	return args.Get(0).(commons.RateLimitCounter), args.Error(1)
 }
 
-func (m *CacheRepositoryMock) set(rlc RateLimitCounter) error {
+func (m *CacheRepositoryMock) set(rlc commons.RateLimitCounter) error {
 	args := m.Called(rlc)
 	return args.Error(0)
 }
@@ -22,7 +23,7 @@ type VerifyUCMock struct {
 	mock.Mock
 }
 
-func (m *VerifyUCMock) handle(typeNotification string, rateLimitCounter *RateLimitCounter) (bool, error) {
+func (m *VerifyUCMock) handle(typeNotification string, rateLimitCounter *commons.RateLimitCounter) (bool, error) {
 	args := m.Called(typeNotification, rateLimitCounter)
 	return args.Get(0).(bool), args.Error(1)
 }

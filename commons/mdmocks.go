@@ -36,3 +36,12 @@ func (m *MDSQSRepositoryMock) SendMessage(messageBody string) (string, error) {
 	args := m.Called(messageBody)
 	return args.Get(0).(string), args.Error(1)
 }
+
+type MdUtilMock struct {
+	mock.Mock
+}
+
+func (m *MdUtilMock) RenderedToHTML(html string, data map[string]interface{}) (string, error) {
+	args := m.Called(html, data)
+	return args.Get(0).(string), args.Error(1)
+}

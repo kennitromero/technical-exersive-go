@@ -54,7 +54,7 @@ func TestVerifyUC_handle(t *testing.T) {
 	}
 	type args struct {
 		typeNotification string
-		rateLimitCounter *RateLimitCounter
+		rateLimitCounter *commons.RateLimitCounter
 	}
 	tests := []struct {
 		name               string
@@ -73,8 +73,8 @@ func TestVerifyUC_handle(t *testing.T) {
 				config: &ConfigRepositoryMock{},
 			},
 			args: args{
-				typeNotification: TypeNotificationStatus,
-				rateLimitCounter: &RateLimitCounter{
+				typeNotification: commons.TypeNotificationStatus,
+				rateLimitCounter: &commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#project_invitations",
 					AttemptCounter: 0,
 					PerSeconds:     60,
@@ -85,7 +85,7 @@ func TestVerifyUC_handle(t *testing.T) {
 				nowMock, _ := time.Parse(time.RFC3339, "2023-05-18T12:43:59Z")
 				fs.mtime.On("GetNowUTC").Return(nowMock).Once()
 
-				fs.config.On("getNotificationLimitsByType", TypeNotificationStatus).
+				fs.config.On("getNotificationLimitsByType", commons.TypeNotificationStatus).
 					Return(TestLimitAttempts, TestPerSeconds, nil).Once()
 			},
 			want:               true,
@@ -100,8 +100,8 @@ func TestVerifyUC_handle(t *testing.T) {
 				config: &ConfigRepositoryMock{},
 			},
 			args: args{
-				typeNotification: TypeNotificationStatus,
-				rateLimitCounter: &RateLimitCounter{
+				typeNotification: commons.TypeNotificationStatus,
+				rateLimitCounter: &commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#project_invitations",
 					AttemptCounter: 1,
 					PerSeconds:     60,
@@ -112,7 +112,7 @@ func TestVerifyUC_handle(t *testing.T) {
 				nowMock, _ := time.Parse(time.RFC3339, "2023-05-18T12:43:59Z")
 				fs.mtime.On("GetNowUTC").Return(nowMock).Once()
 
-				fs.config.On("getNotificationLimitsByType", TypeNotificationStatus).
+				fs.config.On("getNotificationLimitsByType", commons.TypeNotificationStatus).
 					Return(TestLimitAttempts, TestPerSeconds, nil).Once()
 			},
 			want:               true,
@@ -127,8 +127,8 @@ func TestVerifyUC_handle(t *testing.T) {
 				config: &ConfigRepositoryMock{},
 			},
 			args: args{
-				typeNotification: TypeNotificationStatus,
-				rateLimitCounter: &RateLimitCounter{
+				typeNotification: commons.TypeNotificationStatus,
+				rateLimitCounter: &commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#project_invitations",
 					AttemptCounter: 2,
 					PerSeconds:     60,
@@ -139,7 +139,7 @@ func TestVerifyUC_handle(t *testing.T) {
 				nowMock, _ := time.Parse(time.RFC3339, "2023-05-18T12:43:59Z")
 				fs.mtime.On("GetNowUTC").Return(nowMock).Once()
 
-				fs.config.On("getNotificationLimitsByType", TypeNotificationStatus).
+				fs.config.On("getNotificationLimitsByType", commons.TypeNotificationStatus).
 					Return(TestLimitAttempts, TestPerSeconds, nil).Once()
 			},
 			want:               false,
@@ -154,8 +154,8 @@ func TestVerifyUC_handle(t *testing.T) {
 				config: &ConfigRepositoryMock{},
 			},
 			args: args{
-				typeNotification: TypeNotificationStatus,
-				rateLimitCounter: &RateLimitCounter{
+				typeNotification: commons.TypeNotificationStatus,
+				rateLimitCounter: &commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#project_invitations",
 					AttemptCounter: 1,
 					PerSeconds:     60,
@@ -166,7 +166,7 @@ func TestVerifyUC_handle(t *testing.T) {
 				nowMock, _ := time.Parse(time.RFC3339, "2023-05-18T12:48:59Z")
 				fs.mtime.On("GetNowUTC").Return(nowMock).Once()
 
-				fs.config.On("getNotificationLimitsByType", TypeNotificationStatus).
+				fs.config.On("getNotificationLimitsByType", commons.TypeNotificationStatus).
 					Return(TestLimitAttempts, TestPerSeconds, nil).Once()
 			},
 			want:               true,
@@ -181,8 +181,8 @@ func TestVerifyUC_handle(t *testing.T) {
 				config: &ConfigRepositoryMock{},
 			},
 			args: args{
-				typeNotification: TypeNotificationStatus,
-				rateLimitCounter: &RateLimitCounter{
+				typeNotification: commons.TypeNotificationStatus,
+				rateLimitCounter: &commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#project_invitations",
 					AttemptCounter: 4,
 					PerSeconds:     60,
@@ -193,7 +193,7 @@ func TestVerifyUC_handle(t *testing.T) {
 				nowMock, _ := time.Parse(time.RFC3339, "2023-05-18T12:49:59Z")
 				fs.mtime.On("GetNowUTC").Return(nowMock).Once()
 
-				fs.config.On("getNotificationLimitsByType", TypeNotificationStatus).
+				fs.config.On("getNotificationLimitsByType", commons.TypeNotificationStatus).
 					Return(TestLimitAttempts, TestPerSeconds, nil).Once()
 			},
 			want:               true,
@@ -208,8 +208,8 @@ func TestVerifyUC_handle(t *testing.T) {
 				config: &ConfigRepositoryMock{},
 			},
 			args: args{
-				typeNotification: TypeNotificationStatus,
-				rateLimitCounter: &RateLimitCounter{
+				typeNotification: commons.TypeNotificationStatus,
+				rateLimitCounter: &commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#project_invitations",
 					AttemptCounter: 4,
 					PerSeconds:     60,
@@ -217,10 +217,7 @@ func TestVerifyUC_handle(t *testing.T) {
 				},
 			},
 			mock: func(fs fields) {
-				nowMock, _ := time.Parse(time.RFC3339, "2023-05-18T12:49:59Z")
-				fs.mtime.On("GetNowUTC").Return(nowMock).Once()
-
-				fs.config.On("getNotificationLimitsByType", TypeNotificationStatus).
+				fs.config.On("getNotificationLimitsByType", commons.TypeNotificationStatus).
 					Return(0, 0, errors.New("there no exit type")).Once()
 			},
 			want:               false,
@@ -243,6 +240,9 @@ func TestVerifyUC_handle(t *testing.T) {
 			if got != tt.want {
 				t.Errorf("handle() got = %v, want %v", got, tt.want)
 			}
+
+			tt.fields.config.AssertExpectations(t)
+			tt.fields.mtime.AssertExpectations(t)
 		})
 	}
 }

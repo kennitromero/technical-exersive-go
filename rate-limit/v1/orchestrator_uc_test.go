@@ -16,21 +16,21 @@ func TestOrchestratorUC_run(t *testing.T) {
 		MDSQSRepositoryMock *commons.MDSQSRepositoryMock
 	}
 
-	commonArgs := Notification{
+	commonArgs := commons.Notification{
 		To:               "kennitromero@gmail.com",
 		From:             "Henry de Modak",
 		Subject:          "Welcome to the Modak Challenge",
 		Body:             "You start on June 5",
 		WayToNotify:      "email",
 		TypeNotification: "status",
-		Meta: MetaData{
+		Meta: commons.MetaData{
 			LangCode: "en_US",
 			Template: "invitation",
 		},
 	}
 
 	type args struct {
-		notification Notification
+		notification commons.Notification
 	}
 	tests := []struct {
 		name    string
@@ -55,7 +55,7 @@ func TestOrchestratorUC_run(t *testing.T) {
 
 				fs.MTimeMock.On("GetNowUTC").Return(nowMock).Once()
 
-				rl := RateLimitCounter{
+				rl := commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#status",
 					AttemptCounter: 0,
 					CreatedAt:      "2023-05-18T07:57:51Z",
@@ -64,7 +64,7 @@ func TestOrchestratorUC_run(t *testing.T) {
 				fs.CacheRepositoryMock.On(
 					"get",
 					"kennitromero@gmail.com#email#status",
-				).Return(RateLimitCounter{
+				).Return(commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#status",
 					AttemptCounter: 0,
 					CreatedAt:      "2023-05-18T07:57:51Z",
@@ -101,13 +101,13 @@ func TestOrchestratorUC_run(t *testing.T) {
 				nowMock, _ := time.Parse(time.RFC3339, "2023-05-18T07:57:51Z")
 				fs.MTimeMock.On("GetNowUTC").Return(nowMock).Once()
 
-				initRl := RateLimitCounter{}
+				initRl := commons.RateLimitCounter{}
 				fs.CacheRepositoryMock.On(
 					"get",
 					"kennitromero@gmail.com#email#status",
 				).Return(initRl, nil).Once()
 
-				filledRl := RateLimitCounter{
+				filledRl := commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#status",
 					AttemptCounter: 0,
 					CreatedAt:      "2023-05-18T07:57:51Z",
@@ -144,7 +144,7 @@ func TestOrchestratorUC_run(t *testing.T) {
 				nowMock, _ := time.Parse(time.RFC3339, "2023-05-18T07:57:51Z")
 				fs.MTimeMock.On("GetNowUTC").Return(nowMock).Once()
 
-				initRl := RateLimitCounter{}
+				initRl := commons.RateLimitCounter{}
 				fs.CacheRepositoryMock.On(
 					"get",
 					"kennitromero@gmail.com#email#status",
@@ -167,7 +167,7 @@ func TestOrchestratorUC_run(t *testing.T) {
 				nowMock, _ := time.Parse(time.RFC3339, "2023-05-18T07:57:51Z")
 				fs.MTimeMock.On("GetNowUTC").Return(nowMock).Once()
 
-				rl := RateLimitCounter{
+				rl := commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#status",
 					AttemptCounter: 0,
 					CreatedAt:      "2023-05-18T07:57:51Z",
@@ -176,7 +176,7 @@ func TestOrchestratorUC_run(t *testing.T) {
 				fs.CacheRepositoryMock.On(
 					"get",
 					"kennitromero@gmail.com#email#status",
-				).Return(RateLimitCounter{
+				).Return(commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#status",
 					AttemptCounter: 0,
 					CreatedAt:      "2023-05-18T07:57:51Z",
@@ -205,7 +205,7 @@ func TestOrchestratorUC_run(t *testing.T) {
 				nowMock, _ := time.Parse(time.RFC3339, "2023-05-18T07:57:51Z")
 				fs.MTimeMock.On("GetNowUTC").Return(nowMock).Once()
 
-				rl := RateLimitCounter{
+				rl := commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#status",
 					AttemptCounter: 0,
 					CreatedAt:      "2023-05-18T07:57:51Z",
@@ -214,7 +214,7 @@ func TestOrchestratorUC_run(t *testing.T) {
 				fs.CacheRepositoryMock.On(
 					"get",
 					"kennitromero@gmail.com#email#status",
-				).Return(RateLimitCounter{
+				).Return(commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#status",
 					AttemptCounter: 0,
 					CreatedAt:      "2023-05-18T07:57:51Z",
@@ -245,7 +245,7 @@ func TestOrchestratorUC_run(t *testing.T) {
 				nowMock, _ := time.Parse(time.RFC3339, "2023-05-18T07:57:51Z")
 				fs.MTimeMock.On("GetNowUTC").Return(nowMock).Once()
 
-				rl := RateLimitCounter{
+				rl := commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#status",
 					AttemptCounter: 0,
 					CreatedAt:      "2023-05-18T07:57:51Z",
@@ -254,7 +254,7 @@ func TestOrchestratorUC_run(t *testing.T) {
 				fs.CacheRepositoryMock.On(
 					"get",
 					"kennitromero@gmail.com#email#status",
-				).Return(RateLimitCounter{
+				).Return(commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#status",
 					AttemptCounter: 0,
 					CreatedAt:      "2023-05-18T07:57:51Z",

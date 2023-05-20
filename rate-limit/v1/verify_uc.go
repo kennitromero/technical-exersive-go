@@ -6,7 +6,7 @@ import (
 )
 
 type IVerifyUC interface {
-	handle(typeNotification string, rateLimitCounter *RateLimitCounter) (bool, error)
+	handle(typeNotification string, rateLimitCounter *commons.RateLimitCounter) (bool, error)
 }
 
 type VerifyUC struct {
@@ -18,7 +18,7 @@ func NewVerifyUC(mtime commons.ImdTime, config IConfigRepository) *VerifyUC {
 	return &VerifyUC{mtime: mtime, config: config}
 }
 
-func (c VerifyUC) handle(typeNotification string, rateLimitCounter *RateLimitCounter) (bool, error) {
+func (c VerifyUC) handle(typeNotification string, rateLimitCounter *commons.RateLimitCounter) (bool, error) {
 	limitAttempts, perSeconds, err := c.config.getNotificationLimitsByType(typeNotification)
 	if err != nil {
 		return false, err

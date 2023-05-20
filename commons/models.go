@@ -1,4 +1,11 @@
-package main
+package commons
+
+const (
+	TypeNotificationStatus    = "status"
+	TypeNotificationNews      = "news"
+	TypeNotificationMarketing = "marketing"
+	TypeNotificationDaily     = "daily"
+)
 
 type MetaData struct {
 	LangCode string `json:"lang_code"`

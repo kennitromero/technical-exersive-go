@@ -50,7 +50,7 @@ func TestRateLimitCacheRepository_get(t *testing.T) {
 		args    args
 		fields  fields
 		mock    func(fs fields)
-		want    RateLimitCounter
+		want    commons.RateLimitCounter
 		wantErr bool
 	}{
 		{
@@ -70,7 +70,7 @@ func TestRateLimitCacheRepository_get(t *testing.T) {
 					"ated_at\":\"2023-05-18T12:43:50Z\"}", nil,
 				).Once()
 			},
-			want: RateLimitCounter{
+			want: commons.RateLimitCounter{
 				Key:            "kennitromero@gmail.com#email#news",
 				AttemptCounter: 1,
 				PerSeconds:     60,
@@ -92,7 +92,7 @@ func TestRateLimitCacheRepository_get(t *testing.T) {
 					"kennitromero@gmail.com#email#news",
 				).Return("", nil).Once()
 			},
-			want:    RateLimitCounter{},
+			want:    commons.RateLimitCounter{},
 			wantErr: false,
 		},
 		{
@@ -109,7 +109,7 @@ func TestRateLimitCacheRepository_get(t *testing.T) {
 					"kennitromero@gmail.com#email#news",
 				).Return("", errors.New("any")).Once()
 			},
-			want:    RateLimitCounter{},
+			want:    commons.RateLimitCounter{},
 			wantErr: true,
 		},
 		{
@@ -126,7 +126,7 @@ func TestRateLimitCacheRepository_get(t *testing.T) {
 					"kennitromero@gmail.com#email#news",
 				).Return("{{{{", nil).Once()
 			},
-			want:    RateLimitCounter{},
+			want:    commons.RateLimitCounter{},
 			wantErr: true,
 		},
 	}
@@ -144,6 +144,8 @@ func TestRateLimitCacheRepository_get(t *testing.T) {
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("get() got = %v, want %v", got, tt.want)
 			}
+
+			tt.fields.cache.AssertExpectations(t)
 		})
 	}
 }
@@ -153,7 +155,7 @@ func TestRateLimitCacheRepository_set(t *testing.T) {
 		cache *commons.MDCacheMock
 	}
 	type args struct {
-		rlc RateLimitCounter
+		rlc commons.RateLimitCounter
 	}
 	tests := []struct {
 		name    string
@@ -165,7 +167,7 @@ func TestRateLimitCacheRepository_set(t *testing.T) {
 		{
 			name: "should_set_success",
 			args: args{
-				rlc: RateLimitCounter{
+				rlc: commons.RateLimitCounter{
 					Key:            "kennitromero@gmail.com#email#news",
 					AttemptCounter: 1,
 					PerSeconds:     60,
